@@ -22,14 +22,10 @@ class ContactsController < ApplicationController
   # POST /contacts or /contacts.json
   def create
     @contact = Contact.new(contact_params)
-
-    respond_to do |format|
-      if @contact.save
-        format.html { redirect_to @contact, notice: "Contact was successfully created." }
-        format.json { render :show, status: :created, location: @contact }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @contact.errors, status: :unprocessable_entity }
+    if @contact.save
+      redirect_to new_contact_path, notice: '保存されました'
+    else
+      render :new
       end
     end
   end
@@ -64,6 +60,7 @@ class ContactsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.require(:contact).permit(:name, :, :email, :, :content, :)
+      params.require(:contact).permit(:name, :email, :content)
     end
-end
+  
+
